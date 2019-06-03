@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-// import AuthContext from '../../context/auth-context';
+import AuthContext from '../../context/auth-context';
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +38,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const SignIn = () => {
-	const classes = useStyles();
+  const classes = useStyles();
+  
+  const context = useContext(AuthContext);
 	
 	const emailEl = useRef(null);
 	const passwordEl = useRef(null);
@@ -64,7 +66,7 @@ const SignIn = () => {
 			}
 		}
 
-		fetch('http://localhost:5000/graphql', {
+		fetch('https://hydroponics-hub.herokuapp.com/hydro-hub', {
 			method: 'POST',
 			body: JSON.stringify(requestBody),
 			headers: {
@@ -77,15 +79,15 @@ const SignIn = () => {
 			return res.json();
 		}).then(resData => {
 			console.log(resData);
-			// if (resData.data.login.token) {
-			// 	this.context.login(
-			// 		resData.data.login.token,
-			// 		resData.data.login.userId,
-			// 		resData.data.login.tokenExpiration
-			// 	);
-			// }
+			if (resData.data.login.token) {
+				context.login(
+					resData.data.login.token,
+					resData.data.login.userId,
+					resData.data.login.tokenExpiration
+				);
+			}
 		}).catch(err => {
-			console.log(err)
+			console.error(err)
 		});
 	}
 
