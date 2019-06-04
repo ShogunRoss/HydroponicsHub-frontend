@@ -97,10 +97,10 @@ function AppFooter(props) {
             </Typography>
 						<ul className={classes.list}>
 							<li className={classes.listItem}>
-								<Link href="/premium-themes/onepirate/terms/">Terms</Link>
+								<Link href="#">Terms</Link>
 							</li>
 							<li className={classes.listItem}>
-								<Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
+								<Link href="#">Privacy</Link>
 							</li>
 						</ul>
 					</Grid>

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom'
+import AppBar from '../components/AppBar';
 import AppFooter from '../components/AppFooter';
 
 const backgroundImage =
@@ -70,11 +71,12 @@ const WelcomePage = () => {
 	const classes = useStyles();
 	return (
 		<Fragment>
+			<AppBar/>
 			<section className={classes.root} >
 				<Container className={classes.container}>
 					<img style={{ display: 'none' }} src={backgroundImage} alt="" />
 					<Typography color="inherit" align="center" variant="h2" marked="center">
-						Contributing to your Healthier Life
+						Live A Healthier Life
       </Typography>
 					<Typography color="inherit" align="center" variant="h5" className={classes.h5}>
 						Enjoy our platform to help you control over your hydroponics system
@@ -85,7 +87,7 @@ const WelcomePage = () => {
 						size="large"
 						className={classes.button}
 						component={RouterLink}
-						to="/signin/"
+						to="/dashboard"
 					>
 						Dashboard
       </Button>

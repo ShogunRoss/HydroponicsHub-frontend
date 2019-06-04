@@ -8,13 +8,11 @@ import { Link as RouterLink } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AuthContext from "../context/auth-context";
-
+import Slide from '@material-ui/core/Slide';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1,
-	},
 	toolbar: {
 		justifyContent: 'space-between',
 	},
@@ -49,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	button: {
 		fontSize: '0.65rem',
-		padding: theme.spacing(1,1),
+		padding: theme.spacing(1, 1),
 		[theme.breakpoints.up('sm')]: {
 			fontSize: '1rem',
 			padding: theme.spacing(1, 2),
@@ -57,14 +55,28 @@ const useStyles = makeStyles(theme => ({
 	}
 }));
 
+const HideOnScroll = (props) => {
+	const { children, window } = props;
+	// Note that you normally won't need to set the window ref as useScrollTrigger
+	// will default to window.
+	// This is only being set here because the demo is in an iframe.
+	const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+	return (
+		<Slide appear={false} direction="down" in={!trigger}>
+			{children}
+		</Slide>
+	);
+}
+
 const HeaderAppBar = props => {
 	const classes = useStyles();
 	return (
 		<AuthContext.Consumer>
 			{context => {
 				return (
-					<div className={classes.root}>
-						<AppBar position="fixed">
+					<HideOnScroll {...props}>
+						<AppBar position="sticky">
 							<Toolbar className={classes.toolbar}>
 								{context.token && (
 									<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
@@ -116,8 +128,7 @@ const HeaderAppBar = props => {
 								</div>
 							</Toolbar>
 						</AppBar>
-						<div className={classes.placeholder} />
-					</div>
+					</HideOnScroll>
 				)
 			}}
 		</AuthContext.Consumer>
