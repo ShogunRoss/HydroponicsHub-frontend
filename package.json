@@ -6,8 +6,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
+    "lint:check": "eslint . --ext=js,jsx;  exit 0",
+    "lint:fix": "eslint . --ext=js,jsx --fix;  exit 0"
   },
   "dependencies": {
     "@material-ui/core": "latest",
@@ -16,7 +19,15 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "react-scripts": "latest",
-    "clsx": "latest"
+    "classnames": "latest",
+    "chartist": "latest",
+    "history": "latest",
+    "react-chartist": "latest",
+    "prop-types": "latest"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-prettier": "latest"
   },
   "repository": {
     "type": "git",
