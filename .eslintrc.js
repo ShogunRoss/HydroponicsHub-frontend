@@ -19,8 +19,8 @@ module.exports = {
     "plugin:prettier/recommended"
   ],
   rules: {
-    "no-console": "off",
-    "react/prop-types": ["error", { skipUndeclared: true }],
-    "no-unused-vars": ["warning", {}]
+    "no-console": 0,
+    "react/prop-types": [2, { ignore: ["children"], skipUndeclared: true }],
+    "no-unused-vars": [1, {}]
   }
 };

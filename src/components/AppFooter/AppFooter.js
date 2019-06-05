@@ -1,11 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Container from "@material-ui/core/Container";
-import Typography from "./Typography";
+import Typography from "../Typography/Typography";
 import TextField from "@material-ui/core/TextField";
+
+import facebookLogo from "../../assets/img/appFooterFacebook.png";
+import gmailLogo from "../../assets/img/appFooterGmail.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -87,7 +89,7 @@ const AppFooter = () => {
                   rel="noopener noreferrer"
                   className={classes.icon}
                 >
-                  <img src="/assets/appFooterFacebook.png" alt="Facebook" />
+                  <img src={facebookLogo} alt="Facebook" />
                 </a>
                 <a
                   href="mailto:hydroponicshubproject@gmail.com"
@@ -95,7 +97,7 @@ const AppFooter = () => {
                   rel="noopener noreferrer"
                   className={classes.icon}
                 >
-                  <img src="/assets/appFooterGmail.png" alt="Twitter" />
+                  <img src={gmailLogo} alt="Twitter" />
                 </a>
               </Grid>
               <Grid item>© 2019 Bio-Mech Lab</Grid>
@@ -165,10 +167,6 @@ const AppFooter = () => {
       </Container>
     </Typography>
   );
-};
-
-AppFooter.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default React.memo(AppFooter);

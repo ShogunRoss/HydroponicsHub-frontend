@@ -1,8 +1,7 @@
 import React from "react";
 
 const Dashboard = () => {
-  const classes = useStyles();
-  return <p>Dashboard Page</p>;
+  return <p>Device Page</p>;
 };
 
 export default Dashboard;

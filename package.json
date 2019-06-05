@@ -4,7 +4,7 @@
   "private": true,
   "description": "Hydroponics Hub Frontend",
   "scripts": {
-    "start": "react-scripts start",
+    "start": " react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -27,7 +27,8 @@
   },
   "devDependencies": {
     "eslint-config-prettier": "latest",
-    "eslint-plugin-prettier": "latest"
+    "eslint-plugin-prettier": "latest",
+    "cross-env": "latest"
   },
   "repository": {
     "type": "git",

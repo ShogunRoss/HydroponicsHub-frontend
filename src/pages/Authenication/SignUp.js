@@ -10,43 +10,13 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 // import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "../../components/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import Typography from "../../components/Typography/Typography";
+import useStyles from "./authenicationStyles";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import AppBar from "../../components/AppBar";
+import AppBar from "../../components/AppHeader/AppHeader";
 
 import AuthContext from "../../context/auth-context";
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
-  buttonProgress: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    marginTop: -15,
-    marginLeft: -15
-  },
-  wrapper: {
-    position: "relative"
-  }
-}));
 
 const SignUp = () => {
   const classes = useStyles();
