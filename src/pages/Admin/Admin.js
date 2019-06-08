@@ -45,7 +45,7 @@ const switchRoutes = (
   </Switch>
 );
 
-const Admin = props => {
+const Admin = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -119,7 +119,6 @@ const Admin = props => {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        {/* <div className={classes.toolbarIcon} /> */}
         <Divider />
         <List>
           {routes.map((prop, key) => {
@@ -144,6 +143,13 @@ const Admin = props => {
           })}
         </List>
       </Drawer>
+
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <div>{switchRoutes}</div>
+        </Container>
+      </main>
     </div>
   );
 };
