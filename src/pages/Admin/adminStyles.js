@@ -33,10 +33,9 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   drawerPaper: {
-    position: "absolute",
+    position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
-    height: "100%",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -62,15 +61,6 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column"
-  },
-  fixedHeight: {
-    height: 240
   },
   toolbarWrapper: {
     display: "flex",

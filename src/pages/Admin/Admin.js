@@ -54,7 +54,6 @@ const Admin = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = classNames(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -147,73 +146,11 @@ const Admin = () => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <div>{switchRoutes}</div>
+          {switchRoutes}
         </Container>
       </main>
     </div>
   );
 };
-
-// class Admin extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       image: image,
-//       color: "blue",
-//       hasImage: true,
-//       fixedClasses: "dropdown show",
-//       mobileOpen: false
-//     };
-//   }
-//   handleDrawerToggle = () => {
-//     this.setState({ mobileOpen: !this.state.mobileOpen });
-//   };
-//   getRoute() {
-//     return this.props.location.pathname !== "/admin/maps";
-//   }
-//   resizeFunction = () => {
-//     if (window.innerWidth >= 960) {
-//       this.setState({ mobileOpen: false });
-//     }
-//   };
-//   componentDidMount() {
-//     window.addEventListener("resize", this.resizeFunction);
-//   }
-//   componentDidUpdate(e) {
-//     if (e.history.location.pathname !== e.location.pathname) {
-//       if (this.state.mobileOpen) {
-//         this.setState({ mobileOpen: false });
-//       }
-//     }
-//   }
-//   componentWillUnmount() {
-//     window.removeEventListener("resize", this.resizeFunction);
-//   }
-//   render() {
-//     const { classes, ...rest } = this.props;
-//     return (
-//       <div className={classes.wrapper}>
-//         <Sidebar
-//           routes={routes}
-//           logoText={"Home"}
-//           logo={logo}
-//           image={this.state.image}
-//           handleDrawerToggle={this.handleDrawerToggle}
-//           open={this.state.mobileOpen}
-//           color={this.state.color}
-//           {...rest}
-//         />
-//         <div className={classes.mainPanel}>
-//           <Navbar
-//             routes={routes}
-//             handleDrawerToggle={this.handleDrawerToggle}
-//             {...rest}
-//           />
-//           <div className={classes.map}>{switchRoutes}</div>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
 
 export default Admin;

@@ -2,9 +2,10 @@ import {
   drawerWidth,
   transition,
   container
-} from "../../assets/jss/styles-helper";
+} from "../../../assets/jss/styles-helper";
+import { makeStyles } from "@material-ui/core";
 
-const dashboardStyle = theme => ({
+const useStyles = makeStyles(theme => ({
   wrapper: {
     position: "relative",
     top: "0",
@@ -30,7 +31,16 @@ const dashboardStyle = theme => ({
   container,
   map: {
     marginTop: "70px"
+  },
+  paper: {
+    padding: theme.spacing(2),
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column"
+  },
+  fixedHeight: {
+    height: 240
   }
-});
+}));
 
-export default dashboardStyle;
+export default useStyles;
