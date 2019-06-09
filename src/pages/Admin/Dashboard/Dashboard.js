@@ -19,14 +19,10 @@ import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "../../../components/Grid/GridItem";
 import GridContainer from "../../../components/Grid/GridContainer";
-import Table from "../../../components/Table/Tablr";
-import Tasks from "../../../components/Tasks/Taskr";
-import CustomTabs from "../../../components/CustomTabs/CustomTabr";
-import Danger from "../../../components/Typography/Danger";
-import Card from "../../../components/Card/Carr";
+import Card from "../../../components/Card/Card";
 import CardHeader from "../../../components/Card/CardHeader";
-import CardIcon from "../../../components/Card/CardIcor";
-import CardBody from "../../../components/Card/CardBodr";
+import CardIcon from "../../../components/Card/CardIcon";
+import CardBody from "../../../components/Card/CardBody";
 import CardFooter from "../../../components/Card/CardFooter";
 
 const Dashboard = () => {
