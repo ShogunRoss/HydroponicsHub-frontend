@@ -8,7 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 
 // core components
-import cardStyle from "./cardStyle";
+import cardStyle from "./cardStyles";
 
 const Card = props => {
   const {

@@ -1,45 +1,82 @@
 import {
-  drawerWidth,
-  transition,
-  container
+  successColor,
+  whiteColor,
+  grayColor,
+  hexToRgb
 } from "../../../assets/jss/styles-helper";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
-  wrapper: {
-    position: "relative",
-    top: "0",
-    height: "100vh"
+  successText: {
+    color: successColor[0]
   },
-  mainPanel: {
-    [theme.breakpoints.up("md")]: {
-      width: `calc(100% - ${drawerWidth}px)`
+  upArrowCardCategory: {
+    width: "16px",
+    height: "16px"
+  },
+  stats: {
+    color: grayColor[0],
+    display: "inline-flex",
+    fontSize: "12px",
+    lineHeight: "22px",
+    "& svg": {
+      top: "4px",
+      width: "16px",
+      height: "16px",
+      position: "relative",
+      marginRight: "3px",
+      marginLeft: "3px"
     },
-    overflow: "auto",
-    position: "relative",
-    float: "right",
-    ...transition,
-    maxHeight: "100%",
-    width: "100%",
-    overflowScrolling: "touch"
+    "& .fab,& .fas,& .far,& .fal,& .material-icons": {
+      top: "4px",
+      fontSize: "16px",
+      position: "relative",
+      marginRight: "3px",
+      marginLeft: "3px"
+    }
   },
-  content: {
-    marginTop: "70px",
-    padding: "30px 15px",
-    minHeight: "calc(100vh - 123px)"
+  cardCategory: {
+    color: grayColor[0],
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "0",
+    paddingTop: "10px",
+    marginBottom: "0"
   },
-  container,
-  map: {
-    marginTop: "70px"
+  cardCategoryWhite: {
+    color: "rgba(" + hexToRgb(whiteColor) + ",.62)",
+    margin: "0",
+    fontSize: "14px",
+    marginTop: "0",
+    marginBottom: "0"
   },
-  paper: {
-    padding: theme.spacing(2),
-    display: "flex",
-    overflow: "auto",
-    flexDirection: "column"
+  cardTitle: {
+    color: grayColor[2],
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: grayColor[1],
+      fontWeight: "400",
+      lineHeight: "1"
+    }
   },
-  fixedHeight: {
-    height: 240
+  cardTitleWhite: {
+    color: whiteColor,
+    marginTop: "0px",
+    minHeight: "auto",
+    fontWeight: "300",
+    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+    marginBottom: "3px",
+    textDecoration: "none",
+    "& small": {
+      color: grayColor[1],
+      fontWeight: "400",
+      lineHeight: "1"
+    }
   }
 }));
 
