@@ -145,9 +145,9 @@ const Admin = () => {
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        {/* <Container maxWidth="lg" className={classes.container}> */}
+        <Container maxWidth="xl" className={classes.container}>
           {switchRoutes}
-        {/* </Container> */}
+        </Container>
       </main>
     </div>
   );

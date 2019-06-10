@@ -21,6 +21,9 @@ const cardStyle = {
     wordWrap: "break-word",
     fontSize: ".875rem"
   },
+  cardNoMarginTop: {
+    marginTop: "0px"
+  },
   cardPlain: {
     background: "transparent",
     boxShadow: "none"

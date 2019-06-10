@@ -18,10 +18,12 @@ const Card = props => {
     plain,
     profile,
     chart,
+    noMarginTop,
     ...rest
   } = props;
   const cardClasses = classNames({
     [classes.card]: true,
+    [classes.cardNoMarginTop]: noMarginTop,
     [classes.cardPlain]: plain,
     [classes.cardProfile]: profile,
     [classes.cardChart]: chart,
@@ -39,7 +41,8 @@ Card.propTypes = {
   className: PropTypes.string,
   plain: PropTypes.bool,
   profile: PropTypes.bool,
-  chart: PropTypes.bool
+  chart: PropTypes.bool,
+  noMarginTop: PropTypes.bool
 };
 
 export default withStyles(cardStyle)(Card);

@@ -16,12 +16,12 @@ const useStyles = makeStyles(theme => ({
   toolbar: {
     justifyContent: "space-between"
   },
-  placeholder: {
-    height: 56,
-    [theme.breakpoints.up("sm")]: {
-      height: 64
-    }
-  },
+  // placeholder: {
+  //   height: 56,
+  //   [theme.breakpoints.up("sm")]: {
+  //     height: 64
+  //   }
+  // },
   left: {
     [theme.breakpoints.up("sm")]: {
       flex: 1

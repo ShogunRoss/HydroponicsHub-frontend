@@ -17,8 +17,8 @@ var delays2 = 80,
 
 const dailySalesChart = {
   data: {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
-    series: [[12, 17, 7, 17, 23, 18, 38]]
+    labels: ["M", "T", "W", "T", "F", "S", "S", "S"],
+    series: [[12, 17, 7, 17, 23, 18, 38, 40]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({

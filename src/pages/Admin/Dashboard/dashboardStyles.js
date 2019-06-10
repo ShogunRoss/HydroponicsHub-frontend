@@ -77,6 +77,19 @@ const useStyles = makeStyles(theme => ({
       fontWeight: "400",
       lineHeight: "1"
     }
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1)
+  },
+  cardNonMargin: {
+    marginTop: 0
+  },
+  inputDivWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: `0 ${theme.spacing(1)}px ${theme.spacing(0.5)}px`
   }
 }));
 
