@@ -45,7 +45,7 @@ const switchRoutes = (
   </Switch>
 );
 
-const Admin = () => {
+const Admin = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -53,6 +53,17 @@ const Admin = () => {
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const makeBrand = () => {
+    let name;
+    routes.map((prop) => {
+      if (prop.layout + prop.path === props.location.pathname) {
+        name = prop.name;
+      }
+      return null;
+    });
+    return name;
   };
 
   return (
@@ -81,7 +92,7 @@ const Admin = () => {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            {makeBrand()}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">

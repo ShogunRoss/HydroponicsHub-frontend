@@ -90,6 +90,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     padding: `0 ${theme.spacing(1)}px ${theme.spacing(0.5)}px`
+  },
+  formControl: {
+    margin: theme.spacing(2),
+    minWidth: 250
   }
 }));
 

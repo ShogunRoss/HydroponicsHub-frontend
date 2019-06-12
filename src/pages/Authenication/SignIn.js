@@ -15,6 +15,7 @@ import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AppBar from "../../components/AppHeader/AppHeader";
 import AuthContext from "../../context/auth-context";
+import { serverUrl } from "../../config";
 
 const SignIn = () => {
   const classes = useStyles();
@@ -49,7 +50,7 @@ const SignIn = () => {
       }
     };
 
-    fetch("https://hydroponics-hub.herokuapp.com/hydro-hub", {
+    fetch(serverUrl, {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: {

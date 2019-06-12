@@ -17,6 +17,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import AppBar from "../../components/AppHeader/AppHeader";
 
 import AuthContext from "../../context/auth-context";
+import { serverUrl } from "../../config";
 
 const SignUp = () => {
   const classes = useStyles();
@@ -64,7 +65,7 @@ const SignUp = () => {
       }
     };
 
-    fetch("https://hydroponics-hub.herokuapp.com/hydro-hub", {
+    fetch(serverUrl, {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: {
