@@ -46,16 +46,24 @@ body:not(:hover)::-webkit-scrollbar-thumb {
 }
 
 .ct-label.ct-horizontal.ct-end {
-  -webkit-box-align: flex-start;
+  /* -webkit-box-align: flex-start;
   -webkit-align-items: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
   -webkit-box-pack: flex-start;
   -webkit-justify-content: flex-start;
-  -ms-flex-pack: flex-start;
-  justify-content: flex-start;
-  text-align: left;
+  -ms-flex-pack: flex-start; */
+  justify-content: flex-end;
+  position: relative;
+  text-align: right;
   text-anchor: start;
+  transform-origin: 100% 0;
+  transform: translate(-100%) rotate(-45deg);
+  white-space:nowrap;
+}
+
+svg.ct-chart-bar, svg.ct-chart-line{
+    overflow: visible;
 }
 
 .ct-label.ct-vertical.ct-start {
@@ -84,10 +92,6 @@ body:not(:hover)::-webkit-scrollbar-thumb {
   text-anchor: start;
 }
 
-.ct-label {
-  color: rgba(255, 255, 255, 0.7);
-}
-
 .ct-chart-line .ct-label,
 .ct-chart-bar .ct-label {
   display: block;
@@ -99,6 +103,7 @@ body:not(:hover)::-webkit-scrollbar-thumb {
 }
 
 .ct-label {
+  color: rgba(255, 255, 255, 0.7);
   fill: rgba(0, 0, 0, 0.4);
   font-size: 1rem;
   line-height: 1;

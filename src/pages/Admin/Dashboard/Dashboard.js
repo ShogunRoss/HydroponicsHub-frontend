@@ -1,30 +1,16 @@
 import React, { Fragment, useState } from "react";
 import useStyles from "./dashboardStyles";
-import classNames from "classnames";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 import Icon from "@material-ui/core/Icon";
-import IconButton from "@material-ui/core/IconButton";
 import SvgIcon from "@material-ui/core/SvgIcon";
 // @material-ui/icons
-import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
-import SaveAlt from "@material-ui/icons/SaveAlt";
-import CheckCircle from "@material-ui/icons/CheckCircle";
 // core components
-import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
+
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import Select from "@material-ui/core/Select";
 import GridItem from "../../../components/Grid/GridItem";
@@ -36,25 +22,17 @@ import CardBody from "../../../components/Card/CardBody";
 import CardFooter from "../../../components/Card/CardFooter";
 
 import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart
+  tdsConfigChart,
+  tempConfigChart,
+  phConfigChart
 } from "../../../variables/charts.jsx";
 
 import { useHttp } from "../../../hooks/http";
 import { serverUrl } from "../../../config";
 
-const getFormattedTime = timestamp => {
-  console.log(timestamp)
-  return new Date(timestamp).toISOString();
-};
-
 const Dashboard = () => {
   const classes = useStyles();
 
-  // const [tdsSaved, setTdsSaved] = useState(false);
-  // const [tempSaved, setTempSaved] = useState(false);
-  // const [phSaved, setPhSaved] = useState(false);
   const [chosenDevice, setChosenDevice] = useState("");
 
   const requestBody = {
@@ -77,39 +55,74 @@ const Dashboard = () => {
   const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
   const deviceList = fetchedData ? fetchedData.data.devices : [];
 
-  let tdsValue = 0;
-  let temperatureValue = 0;
-  let phValue = 0;
-  let updatedTime;
+  let tdsValue = 0,
+    tempValue = 0,
+    phValue = 0;
+
+  let tdsArray = [],
+    tempArray = [],
+    phArray = [],
+    timeArray = [];
+
+  let updatedTime = "Unknown",
+    updatedInterval = "Unknown";
+
   if (chosenDevice !== "") {
-    const lastestSenssorData = deviceList[chosenDevice].history.pop();
-    if (lastestSenssorData) {
-      tdsValue = lastestSenssorData.nutrient;
-      temperatureValue = lastestSenssorData.temperature;
-      phValue = lastestSenssorData.pH;
-      // updatedTime = getFormattedTime(lastestSenssorData.time);
-      console.log(deviceList[chosenDevice].installationDate);
+    const lastestSensorData = deviceList[chosenDevice].history.slice(-1)[0];
+    console.log(lastestSensorData);
+    tdsArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+      return data.nutrient;
+    });
+    tempArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+      return data.temperature;
+    });
+    phArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+      return data.pH;
+    });
+    timeArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+      let time = new Date(data.time);
+      return (
+        time.getHours() +
+        "h" +
+        (time.getMinutes() < 10 ? "0" : "") +
+        time.getMinutes() +
+        " " +
+        time.getDate() +
+        "/" +
+        time.getMonth() +
+        "/" +
+        time
+          .getFullYear()
+          .toString()
+          .substr(-2)
+      );
+    });
+
+    if (lastestSensorData) {
+      tdsValue = lastestSensorData.nutrient || 0;
+      tempValue = lastestSensorData.temperature;
+      phValue = lastestSensorData.pH;
+      updatedTime = new Date(lastestSensorData.time).toString();
+    }
+
+    if (timeArray.length > 0) {
+      updatedInterval =
+        "From " + timeArray[0] + " to " + timeArray[timeArray.length - 1];
     }
   }
 
-  // const handleSaveButtonClick = type => {
-  //   console.log(type);
-  //   switch (type) {
-  //     case "tds":
-  //       setTdsSaved(true);
-  //       break;
-  //     case "temp":
-  //       setTempSaved(true);
-  //       break;
-  //     case "ph":
-  //       setPhSaved(true);
-  //       break;
-  //   }
-  // };
+  tdsConfigChart.data.series[0] = tdsArray;
+  tdsConfigChart.data.labels = timeArray;
+  tempConfigChart.data.series[0] = tempArray;
+  tempConfigChart.data.labels = timeArray;
+  phConfigChart.data.series[0] = phArray;
+  phConfigChart.data.labels = timeArray;
 
   const handleSelectDeviceChange = event => {
     setChosenDevice(event.target.value);
   };
+
+  console.log(tdsArray);
 
   return (
     <Fragment>
@@ -130,7 +143,9 @@ const Dashboard = () => {
           ))}
         </Select>
       </FormControl>
+      {/* INFO CARD ZONE */}
       <GridContainer>
+        {/* TDS Card */}
         <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardHeader color="success" stats icon>
@@ -150,41 +165,12 @@ const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Just Updated
+                {updatedTime}
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-
-        {/* <GridItem xs={12} sm={12} md={12}>
-            <Card noMarginTop>
-              <CardHeader stats icon>
-                <p className={classes.cardCategory}>Wanted TDS</p>
-              </CardHeader>
-              <div className={classes.inputDivWrapper}>
-                <TextField
-                  id="outlined-number"
-                  label="Value"
-                  value={tdsValue}
-                  //onChange={handleChange("age")}
-                  type="number"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  margin="normal"
-                  variant="outlined"
-                />
-                <IconButton
-                  aria-label="Save TDS"
-                  onClick={handleSaveButtonClick.bind(this, "tds")}
-                >
-                  {tdsSaved ? <CheckCircle color="primary" /> : <SaveAlt />}
-                </IconButton>
-              </div>
-            </Card>
-          </GridItem> */}
-
+        {/* Temperature Card */}
         <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="danger" stats icon>
@@ -209,18 +195,18 @@ const Dashboard = () => {
               </CardIcon>
               <p className={classes.cardCategory}>Temperature</p>
               <h1 className={classes.cardTitle}>
-                {temperatureValue} <small>°C</small>
+                {tempValue} <small>°C</small>
               </h1>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Just Updated
+                {updatedTime}
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-
+        {/* pH Card */}
         <GridItem xs={12} sm={6} md={4}>
           <Card>
             <CardHeader color="warning" stats icon>
@@ -240,23 +226,24 @@ const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Just Updated
+                {updatedTime}
               </div>
             </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>
-
+      {/* CHART ZONE */}
       <GridContainer>
+        {/* TDS Chart */}
         <GridItem xs={12} sm={12} md={12}>
           <Card chart>
             <CardHeader color="success">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={tdsConfigChart.data}
                 type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
+                options={tdsConfigChart.options}
+                listener={tdsConfigChart.animation}
               />
             </CardHeader>
             <CardBody>
@@ -267,21 +254,21 @@ const Dashboard = () => {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
+                <AccessTime /> {updatedInterval}
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-
+        {/* Temperature Chart */}
         <GridItem xs={12} sm={12} md={12}>
           <Card chart>
             <CardHeader color="danger">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={tempConfigChart.data}
                 type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
+                options={tempConfigChart.options}
+                listener={tempConfigChart.animation}
               />
             </CardHeader>
             <CardBody>
@@ -292,21 +279,21 @@ const Dashboard = () => {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
+                <AccessTime /> {updatedInterval}
               </div>
             </CardFooter>
           </Card>
         </GridItem>
-
+        {/* pH Chart */}
         <GridItem xs={12} sm={12} md={12}>
           <Card chart>
             <CardHeader color="warning">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={phConfigChart.data}
                 type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
+                options={phConfigChart.options}
+                listener={phConfigChart.animation}
               />
             </CardHeader>
             <CardBody>
@@ -317,7 +304,7 @@ const Dashboard = () => {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
+                <AccessTime /> {updatedInterval}
               </div>
             </CardFooter>
           </Card>
