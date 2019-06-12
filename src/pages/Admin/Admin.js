@@ -15,8 +15,6 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -24,10 +22,6 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import PeopleIcon from "@material-ui/icons/People";
 
 const switchRoutes = (
   <Switch>
@@ -45,7 +39,7 @@ const switchRoutes = (
   </Switch>
 );
 
-const Admin = (props) => {
+const Admin = props => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -57,7 +51,7 @@ const Admin = (props) => {
 
   const makeBrand = () => {
     let name;
-    routes.map((prop) => {
+    routes.map(prop => {
       if (prop.layout + prop.path === props.location.pathname) {
         name = prop.name;
       }
