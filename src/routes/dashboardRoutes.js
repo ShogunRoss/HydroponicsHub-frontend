@@ -15,13 +15,13 @@ const dashboardRoutes = [
     component: DashboardPage,
     layout: "/admin"
   },
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/user",
+  //   name: "User Profile",
+  //   icon: Person,
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // },
   {
     path: "/device",
     name: "Device",

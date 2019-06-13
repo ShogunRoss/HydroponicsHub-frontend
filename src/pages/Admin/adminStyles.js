@@ -1,93 +1,36 @@
-import { makeStyles } from "@material-ui/core";
-import { drawerWidth } from "../../assets/jss/styles-helper";
+import {
+  drawerWidth,
+  transition,
+  container
+} from "../../assets/jss/styles-helper";
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: "flex"
-  },
-  toolbar: {
-    paddingRight: 24 // keep right padding when drawer closed
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
-  },
-  menuButton: {
-    marginRight: 36
-  },
-  menuButtonHidden: {
-    display: "none"
-  },
-  title: {
-    flexGrow: 1
-  },
-  drawerPaper: {
+const adminStyles = theme => ({
+  wrapper: {
     position: "relative",
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen
-    })
+    top: "0",
+    height: "100vh"
   },
-  drawerPaperClose: {
-    overflowX: "hidden",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9)
-    }
+  mainPanel: {
+    [theme.breakpoints.up("md")]: {
+      width: `calc(100% - ${drawerWidth}px)`
+    },
+    overflow: "auto",
+    position: "relative",
+    float: "right",
+    ...transition,
+    maxHeight: "100%",
+    width: "100%",
+    overflowScrolling: "touch"
   },
-  appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto"
+    marginTop: "70px",
+    padding: "30px 15px",
+    minHeight: "calc(100vh - 123px)"
   },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
-  },
-  toolbarWrapper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "0 8px",
-    ...theme.mixins.toolbar
-  },
-  logoLink: {
-    textTransform: "uppercase",
-    fontSize: "1.25rem",
-    fontWeight: theme.typography.fontWeightBold
-  },
-  logoImage: {
-    width: "30px",
-    display: "inline-block",
-    maxHeight: "30px",
-    marginLeft: "10px",
-    marginRight: "15px"
-  },
-  img: {
-    width: "35px",
-    top: "20px",
-    position: "absolute",
-    verticalAlign: "middle",
-    border: "0"
+  container,
+  map: {
+    marginTop: "70px"
   }
-}));
+});
 
-export default useStyles;
+export default adminStyles;

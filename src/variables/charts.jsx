@@ -3,7 +3,7 @@ const Chartist = require("chartist");
 // ##############################
 // variables used to create animation on charts
 // #############################
-const delays = 80,
+const delays = 100,
   durations = 500;
 
 // ##############################

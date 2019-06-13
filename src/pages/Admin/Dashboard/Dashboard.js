@@ -214,6 +214,7 @@ const Dashboard = () => {
 
   return (
     <Fragment>
+      {/* Select Devices */}
       <FormControl variant="outlined" className={classes.formControl}>
         <Select
           value={chosenDevice}
