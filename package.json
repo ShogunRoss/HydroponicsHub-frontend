@@ -15,15 +15,16 @@
   "dependencies": {
     "@material-ui/core": "latest",
     "@material-ui/icons": "latest",
+    "chartist": "latest",
+    "chartist-plugin-tooltips-updated": "latest",
+    "classnames": "latest",
+    "history": "latest",
+    "prop-types": "latest",
     "react": "latest",
+    "react-chartist": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
-    "react-scripts": "latest",
-    "classnames": "latest",
-    "chartist": "latest",
-    "history": "latest",
-    "react-chartist": "latest",
-    "prop-types": "latest"
+    "react-scripts": "latest"
   },
   "devDependencies": {
     "eslint-config-prettier": "latest",

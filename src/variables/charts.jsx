@@ -1,4 +1,5 @@
 const Chartist = require("chartist");
+require("chartist-plugin-tooltips-updated");
 
 // ##############################
 // variables used to create animation on charts
@@ -26,7 +27,8 @@ const tdsConfigChart = {
       bottom: 56,
       left: 32
     },
-    height: "35vh"
+    height: "35vh",
+    plugins: [Chartist.plugins.tooltip()]
   },
   // for animation
   animation: {
@@ -81,7 +83,8 @@ const tempConfigChart = {
       bottom: 56,
       left: 32
     },
-    height: "35vh"
+    height: "35vh",
+    plugins: [Chartist.plugins.tooltip()]
   },
   // for animation
   animation: {
@@ -143,7 +146,8 @@ const phConfigChart = {
     //   low: 0,
     //   high: 14
     // },
-    height: "35vh"
+    height: "35vh",
+    plugins: [Chartist.plugins.tooltip()]
   },
   // for animation
   animation: {

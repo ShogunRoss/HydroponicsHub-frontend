@@ -46,24 +46,25 @@ body:not(:hover)::-webkit-scrollbar-thumb {
 }
 
 .ct-label.ct-horizontal.ct-end {
-  /* -webkit-box-align: flex-start;
+  -webkit-box-align: flex-start;
   -webkit-align-items: flex-start;
   -ms-flex-align: flex-start;
   align-items: flex-start;
   -webkit-box-pack: flex-start;
   -webkit-justify-content: flex-start;
-  -ms-flex-pack: flex-start; */
+  -ms-flex-pack: flex-start;
   justify-content: flex-end;
   position: relative;
   text-align: right;
   text-anchor: start;
   transform-origin: 100% 0;
   transform: translate(-100%) rotate(-45deg);
-  white-space:nowrap;
+  white-space: nowrap;
 }
 
-svg.ct-chart-bar, svg.ct-chart-line{
-    overflow: visible;
+svg.ct-chart-bar,
+svg.ct-chart-line {
+  overflow: visible;
 }
 
 .ct-label.ct-vertical.ct-start {
@@ -901,6 +902,43 @@ svg.ct-chart-bar, svg.ct-chart-line{
 .ct-rose {
   stroke: #e91e63 !important;
 }
+
+.chartist-tooltip {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+  min-width: 5em;
+  padding: 0.5em;
+  background: #e3e3e3;
+  border-radius: 3px;
+  color: #453d3f;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  -webkit-transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
+}
+
+.chartist-tooltip:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -10px;
+  border: 10px solid transparent;
+  border-top-color: #e3e3e3;
+}
+
+.chartist-tooltip.tooltip-show {
+  opacity: 1;
+}
+
 html * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
