@@ -26,7 +26,7 @@ const tdsConfigChart = {
       bottom: 56,
       left: 32
     },
-    height: "30vh"
+    height: "35vh"
   },
   // for animation
   animation: {
@@ -81,7 +81,7 @@ const tempConfigChart = {
       bottom: 56,
       left: 32
     },
-    height: "30vh"
+    height: "35vh"
   },
   // for animation
   animation: {
@@ -143,7 +143,7 @@ const phConfigChart = {
     //   low: 0,
     //   high: 14
     // },
-    height: "30vh"
+    height: "35vh"
   },
   // for animation
   animation: {

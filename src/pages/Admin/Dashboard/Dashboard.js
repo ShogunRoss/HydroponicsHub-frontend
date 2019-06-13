@@ -34,6 +34,7 @@ const Dashboard = () => {
   const classes = useStyles();
 
   const [chosenDevice, setChosenDevice] = useState("");
+  const [displayChart, setDisplayChart] = useState("tds");
 
   const requestBody = {
     query: `
@@ -69,7 +70,6 @@ const Dashboard = () => {
 
   if (chosenDevice !== "") {
     const lastestSensorData = deviceList[chosenDevice].history.slice(-1)[0];
-    console.log(lastestSensorData);
     tdsArray = deviceList[chosenDevice].history.slice(-20).map(data => {
       return data.nutrient;
     });
@@ -122,7 +122,95 @@ const Dashboard = () => {
     setChosenDevice(event.target.value);
   };
 
-  console.log(tdsArray);
+  const handleCardClick = event => {
+    setDisplayChart(event.currentTarget.id);
+  };
+
+  const switchChart = type => {
+    switch (type) {
+      case "tds": //TDS Chart
+        return (
+          <GridItem xs={12} sm={12} md={12}>
+            <Card chart>
+              <CardHeader color="success">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={tdsConfigChart.data}
+                  type="Line"
+                  options={tdsConfigChart.options}
+                  listener={tdsConfigChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h3 className={classes.cardTitle}>TDS</h3>
+                <p className={classes.cardCategory}>
+                  Figure showing the change of Nutrient index
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> {updatedInterval}
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+        );
+      case "temp": //Temperature Chart
+        return (
+          <GridItem xs={12} sm={12} md={12}>
+            <Card chart>
+              <CardHeader color="danger">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={tempConfigChart.data}
+                  type="Line"
+                  options={tempConfigChart.options}
+                  listener={tempConfigChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h3 className={classes.cardTitle}>Temperature</h3>
+                <p className={classes.cardCategory}>
+                  Figure showing the change of Temperature index
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> {updatedInterval}
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+        );
+      case "ph": //pH Chart
+        return (
+          <GridItem xs={12} sm={12} md={12}>
+            <Card chart>
+              <CardHeader color="warning">
+                <ChartistGraph
+                  className="ct-chart"
+                  data={phConfigChart.data}
+                  type="Line"
+                  options={phConfigChart.options}
+                  listener={phConfigChart.animation}
+                />
+              </CardHeader>
+              <CardBody>
+                <h3 className={classes.cardTitle}>pH</h3>
+                <p className={classes.cardCategory}>
+                  Figure showing the change of pH index
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <AccessTime /> {updatedInterval}
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+        );
+    }
+  };
 
   return (
     <Fragment>
@@ -147,7 +235,7 @@ const Dashboard = () => {
       <GridContainer>
         {/* TDS Card */}
         <GridItem xs={12} sm={12} md={4}>
-          <Card>
+          <Card id="tds" onClick={handleCardClick}>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
                 <Icon>
@@ -172,7 +260,7 @@ const Dashboard = () => {
         </GridItem>
         {/* Temperature Card */}
         <GridItem xs={12} sm={6} md={4}>
-          <Card>
+          <Card id="temp" onClick={handleCardClick}>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
                 <Icon>
@@ -208,7 +296,7 @@ const Dashboard = () => {
         </GridItem>
         {/* pH Card */}
         <GridItem xs={12} sm={6} md={4}>
-          <Card>
+          <Card id="ph" onClick={handleCardClick}>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
                 <Icon>
@@ -233,83 +321,7 @@ const Dashboard = () => {
         </GridItem>
       </GridContainer>
       {/* CHART ZONE */}
-      <GridContainer>
-        {/* TDS Chart */}
-        <GridItem xs={12} sm={12} md={12}>
-          <Card chart>
-            <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={tdsConfigChart.data}
-                type="Line"
-                options={tdsConfigChart.options}
-                listener={tdsConfigChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h3 className={classes.cardTitle}>TDS</h3>
-              <p className={classes.cardCategory}>
-                Figure showing the change of Nutrient index
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> {updatedInterval}
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        {/* Temperature Chart */}
-        <GridItem xs={12} sm={12} md={12}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={tempConfigChart.data}
-                type="Line"
-                options={tempConfigChart.options}
-                listener={tempConfigChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h3 className={classes.cardTitle}>Temperature</h3>
-              <p className={classes.cardCategory}>
-                Figure showing the change of Temperature index
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> {updatedInterval}
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        {/* pH Chart */}
-        <GridItem xs={12} sm={12} md={12}>
-          <Card chart>
-            <CardHeader color="warning">
-              <ChartistGraph
-                className="ct-chart"
-                data={phConfigChart.data}
-                type="Line"
-                options={phConfigChart.options}
-                listener={phConfigChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h3 className={classes.cardTitle}>pH</h3>
-              <p className={classes.cardCategory}>
-                Figure showing the change of pH index
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> {updatedInterval}
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
+      <GridContainer>{switchChart(displayChart)}</GridContainer>
     </Fragment>
   );
 };
