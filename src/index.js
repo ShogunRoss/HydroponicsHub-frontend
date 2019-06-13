@@ -5,6 +5,10 @@ import { ThemeProvider } from "@material-ui/styles";
 import App from "./App";
 import theme from "./theme";
 
+Array.prototype.last = function() {
+  return this[this.length - 1];
+};
+
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
