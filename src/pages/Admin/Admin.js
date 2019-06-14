@@ -14,6 +14,9 @@ import SideBar from "../../components/SideBar/SideBar";
 import logo from "../../assets/img/reactlogo.png";
 import image from "../../assets/img/sidebar.jpg";
 
+import { serverUrl } from "../../config";
+import DevicesContext from "../../context/devices-context";
+
 const switchRoutes = (
   <Switch>
     {routes.map((prop, key) => {
@@ -29,6 +32,23 @@ const switchRoutes = (
     })}
   </Switch>
 );
+
+const requestBody = {
+  query: `
+        query {
+          devices {
+            name
+            installationDate
+            history{
+              nutrient
+              pH
+              temperature
+              time
+            }
+          }
+        } 
+			`
+};
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +58,8 @@ class Admin extends React.Component {
       color: "green",
       hasImage: true,
       fixedClasses: "dropdown show",
-      mobileOpen: false
+      mobileOpen: false,
+      devices: []
     };
   }
   handleImageClick = image => {
@@ -64,6 +85,26 @@ class Admin extends React.Component {
   };
   componentDidMount() {
     window.addEventListener("resize", this.resizeFunction);
+    console.log("Admin did mount");
+    fetch(serverUrl, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed to fetch.");
+        }
+        return res.json();
+      })
+      .then(data => {
+        this.setState({ devices: data.data.devices });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
@@ -97,7 +138,13 @@ class Admin extends React.Component {
             {...rest}
           />
           <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
+            <DevicesContext.Provider
+              value={{
+                devices: this.state.devices
+              }}
+            >
+              <div className={classes.container}>{switchRoutes}</div>
+            </DevicesContext.Provider>
           </div>
         </div>
       </div>

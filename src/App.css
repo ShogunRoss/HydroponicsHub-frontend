@@ -62,10 +62,10 @@ body:not(:hover)::-webkit-scrollbar-thumb {
   white-space: nowrap;
 }
 
-svg.ct-chart-bar,
+/* svg.ct-chart-bar,
 svg.ct-chart-line {
   overflow: visible;
-}
+} */
 
 .ct-label.ct-vertical.ct-start {
   -webkit-box-align: flex-end;
@@ -913,14 +913,14 @@ svg.ct-chart-line {
   border-radius: 3px;
   color: #453d3f;
   font-family: Montserrat, Helvetica, Arial, sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   pointer-events: none;
   z-index: 1;
-  -webkit-transition: opacity 0.2s linear;
-  -moz-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
-  transition: opacity 0.2s linear;
+  -webkit-transition: opacity 0.1s linear;
+  -moz-transition: opacity 0.1s linear;
+  -o-transition: opacity 0.1s linear;
+  transition: opacity 0.1s linear;
 }
 
 .chartist-tooltip:before {
@@ -936,7 +936,7 @@ svg.ct-chart-line {
 }
 
 .chartist-tooltip.tooltip-show {
-  opacity: 1;
+  opacity: 0.8;
 }
 
 html * {

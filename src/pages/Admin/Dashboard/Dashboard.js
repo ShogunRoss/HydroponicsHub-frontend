@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import useStyles from "./dashboardStyles";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
@@ -29,32 +29,36 @@ import {
 
 import { useHttp } from "../../../hooks/http";
 import { serverUrl } from "../../../config";
+import DevicesContext from "../../../context/devices-context";
 
 const Dashboard = () => {
   const classes = useStyles();
+  const context = useContext(DevicesContext);
 
   const [chosenDevice, setChosenDevice] = useState("");
   const [displayChart, setDisplayChart] = useState("tds");
 
-  const requestBody = {
-    query: `
-        query {
-          devices {
-            name
-            installationDate
-            history{
-              nutrient
-              pH
-              temperature
-              time
-            }
-          }
-        } 
-			`
-  };
+  // const requestBody = {
+  //   query: `
+  //       query {
+  //         devices {
+  //           name
+  //           installationDate
+  //           history{
+  //             nutrient
+  //             pH
+  //             temperature
+  //             time
+  //           }
+  //         }
+  //       }
+  // 		`
+  // };
 
-  const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
-  const deviceList = fetchedData ? fetchedData.data.devices : [];
+  // const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
+  // const deviceList = fetchedData ? fetchedData.data.devices : [];
+
+  const deviceList = context.devices;
 
   let tdsValue = 0,
     tempValue = 0,
