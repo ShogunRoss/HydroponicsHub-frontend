@@ -69,7 +69,7 @@ const defaultFont = {
   fontWeight: "300",
   lineHeight: "1.5em"
 };
-const primaryColor = ["#05CE78", "#60ffa8", "#009c4b", "#5cb860"];
+const primaryColor = ["#05CE78", "#009c4b", "#60ffa8", "#5cb860"];
 // const primaryColor = ["#9c27b0", "#ab47bc", "#8e24aa", "#af2cc5"];
 const warningColor = ["#ff9800", "#ffa726", "#fb8c00", "#ffa21a"];
 const dangerColor = ["#f44336", "#ef5350", "#e53935", "#f55a4e"];
@@ -231,7 +231,7 @@ const title = {
   marginTop: "30px",
   marginBottom: "25px",
   minHeight: "32px",
-  fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+  fontFamily: "'Montserrat','Roboto', 'Helvetica', 'Arial', sans-serif",
   "& small": {
     color: grayColor[1],
     fontWeight: "400",

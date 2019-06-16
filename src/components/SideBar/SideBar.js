@@ -17,6 +17,10 @@ import AdminNavbarLinks from "../NavBar/AdminNavBarLink/AdminNavBarLink";
 
 import sideBarStyles from "./sideBarStyles";
 
+const ForwardNavLink = React.forwardRef((props, ref) => (
+  <NavLink {...props} innerRef={ref} />
+));
+
 const SideBar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
@@ -35,7 +39,7 @@ const SideBar = ({ ...props }) => {
         });
         return (
           <Link
-            component={NavLink}
+            component={ForwardNavLink}
             underline="none"
             color="inherit"
             variant="h6"
@@ -75,7 +79,7 @@ const SideBar = ({ ...props }) => {
         varient="h6"
         color="inherit"
         underline="none"
-        component={NavLink}
+        component={ForwardNavLink}
       >
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />

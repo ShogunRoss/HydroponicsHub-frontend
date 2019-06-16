@@ -33,22 +33,30 @@ const switchRoutes = (
   </Switch>
 );
 
-const requestBody = {
-  query: `
-        query {
-          devices {
-            name
-            installationDate
-            history{
-              nutrient
-              pH
-              temperature
-              time
-            }
-          }
-        } 
-			`
-};
+// const requestBody = {
+//   query: `
+//         query {
+//           devices {
+//             name
+//             installationDate
+//             location
+//             tdsWanted
+//             phWanted
+//             sensorInterval
+//             floodInterval
+//             ledInterval
+//             floodDuration
+//             ledDuration
+//             history{
+//               nutrient
+//               pH
+//               temperature
+//               time
+//             }
+//           }
+//         } 
+// 			`
+// };
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -86,25 +94,25 @@ class Admin extends React.Component {
   componentDidMount() {
     window.addEventListener("resize", this.resizeFunction);
     console.log("Admin did mount");
-    fetch(serverUrl, {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Failed to fetch.");
-        }
-        return res.json();
-      })
-      .then(data => {
-        this.setState({ devices: data.data.devices });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // fetch(serverUrl, {
+    //   method: "POST",
+    //   body: JSON.stringify(requestBody),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // })
+    //   .then(res => {
+    //     if (res.status !== 200 && res.status !== 201) {
+    //       throw new Error("Failed to fetch.");
+    //     }
+    //     return res.json();
+    //   })
+    //   .then(data => {
+    //     this.setState({ devices: data.data.devices });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
@@ -138,13 +146,13 @@ class Admin extends React.Component {
             {...rest}
           />
           <div className={classes.content}>
-            <DevicesContext.Provider
+            {/* <DevicesContext.Provider
               value={{
                 devices: this.state.devices
-              }}
-            >
-              <div className={classes.container}>{switchRoutes}</div>
-            </DevicesContext.Provider>
+              }} 
+            >*/}
+            <div className={classes.container}>{switchRoutes}</div>
+            {/* </DevicesContext.Provider> */}
           </div>
         </div>
       </div>

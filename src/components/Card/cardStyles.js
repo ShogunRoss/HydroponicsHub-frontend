@@ -3,8 +3,9 @@ import {
   whiteColor,
   hexToRgb
 } from "../../assets/jss/styles-helper";
+import { makeStyles } from "@material-ui/core";
 
-const cardStyle = {
+const useStyles = makeStyles(theme => ({
   card: {
     border: "0",
     marginBottom: "30px",
@@ -12,13 +13,13 @@ const cardStyle = {
     borderRadius: "6px",
     color: "rgba(" + hexToRgb(blackColor) + ", 0.87)",
     background: whiteColor,
-    width: "100%",
+    // width: "100%",
     boxShadow: "0 1px 4px 0 rgba(" + hexToRgb(blackColor) + ", 0.14)",
     position: "relative",
     display: "flex",
     flexDirection: "column",
     minWidth: "0",
-    wordWrap: "break-word",
+    wordWrap: "breaTrapFocusk-word",
     fontSize: ".875rem"
   },
   cardNoMarginTop: {
@@ -38,6 +39,6 @@ const cardStyle = {
       paddingTop: "0px"
     }
   }
-};
+}));
 
-export default cardStyle;
+export default useStyles;

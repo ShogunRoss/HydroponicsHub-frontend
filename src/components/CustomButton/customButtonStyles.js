@@ -11,7 +11,7 @@ import {
   hexToRgb
 } from "../../assets/jss/styles-helper";
 
-const buttonStyle = {
+const buttonStyle = theme => ({
   button: {
     minHeight: "auto",
     minWidth: "auto",
@@ -28,10 +28,10 @@ const buttonStyle = {
     border: "none",
     borderRadius: "3px",
     position: "relative",
-    padding: "12px 30px",
+    padding: "12px 16px",
     margin: ".3125rem 1px",
-    fontSize: "12px",
-    fontWeight: "400",
+    fontSize: "0.75rem",
+    fontWeight: "500",
     textTransform: "uppercase",
     letterSpacing: "0",
     willChange: "box-shadow, transform",
@@ -336,7 +336,13 @@ const buttonStyle = {
         height: "17px"
       }
     }
+  },
+  marginRight: {
+    marginRight: theme.spacing(1)
+  },
+  marginLeft: {
+    marginLeft: theme.spacing(1)
   }
-};
+});
 
 export default buttonStyle;

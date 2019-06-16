@@ -3,16 +3,13 @@ import React from "react";
 import classNames from "classnames";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
-// @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
-// @material-ui/icons
 
 // core components
-import cardStyle from "./cardStyles";
+import useStyles from "./cardStyles";
 
-const Card = props => {
+const Card = React.forwardRef((props, ref) => {
+  const classes = useStyles();
   const {
-    classes,
     className,
     children,
     plain,
@@ -30,14 +27,14 @@ const Card = props => {
     [className]: className !== undefined
   });
   return (
-    <div className={cardClasses} {...rest}>
+    <div className={cardClasses} {...rest} ref={ref}>
       {children}
     </div>
   );
-};
+});
 
 Card.propTypes = {
-  classes: PropTypes.object.isRequired,
+  // classes: PropTypes.object.isRequired,
   className: PropTypes.string,
   plain: PropTypes.bool,
   profile: PropTypes.bool,
@@ -45,4 +42,4 @@ Card.propTypes = {
   noMarginTop: PropTypes.bool
 };
 
-export default withStyles(cardStyle)(Card);
+export default Card;

@@ -20,6 +20,7 @@
     "classnames": "latest",
     "history": "latest",
     "prop-types": "latest",
+    "material-table": "latest",
     "react": "latest",
     "react-chartist": "latest",
     "react-dom": "latest",
