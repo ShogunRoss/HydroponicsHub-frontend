@@ -12,9 +12,9 @@ import Poppers from "@material-ui/core/Popper";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
-import Search from "@material-ui/icons/Search";
+// import Search from "@material-ui/icons/Search";
 // core components
-import CustomInput from "../../CustomInput/CustomInput";
+// import CustomInput from "../../CustomInput/CustomInput";
 import Button from "../../CustomButton/CustomButton";
 
 import adminNavBarLinkStyles from "./adminNavBarLinkStyles";

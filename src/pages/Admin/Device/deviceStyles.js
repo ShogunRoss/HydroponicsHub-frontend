@@ -1,14 +1,3 @@
-import {
-  defaultFont,
-  dangerColor,
-  whiteColor,
-  grayColor,
-  primaryBoxShadow,
-  primaryColor,
-  hexToRgb,
-  blackColor
-} from "../../../assets/jss/styles-helper";
-
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({

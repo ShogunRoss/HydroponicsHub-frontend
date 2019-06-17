@@ -15,7 +15,7 @@ import logo from "../../assets/img/reactlogo.png";
 import image from "../../assets/img/sidebar.jpg";
 
 import { serverUrl } from "../../config";
-import AuthContext from "../../context/auth-context"
+import AuthContext from "../../context/auth-context";
 import DevicesContext from "../../context/devices-context";
 
 const switchRoutes = (
@@ -30,6 +30,7 @@ const switchRoutes = (
           />
         );
       }
+      return null;
     })}
   </Switch>
 );

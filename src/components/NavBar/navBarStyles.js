@@ -8,10 +8,7 @@ import {
   warningColor,
   dangerColor,
   whiteColor,
-  grayColor,
-  hexToRgb,
-  primaryBoxShadow,
-  blackColor
+  grayColor
 } from "../../assets/jss/styles-helper";
 
 const headerStyle = theme => ({

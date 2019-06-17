@@ -31,21 +31,21 @@ import {
 // import { serverUrl } from "../../../config";
 import DevicesContext from "../../../context/devices-context";
 
-const requestBody = {
-  query: `
-        query {
-          devices {
-            name
-            history{
-              nutrient
-              pH
-              temperature
-              time
-            }
-          }
-        }
-      `
-};
+// const requestBody = {
+//   query: `
+//         query {
+//           devices {
+//             name
+//             history{
+//               nutrient
+//               pH
+//               temperature
+//               time
+//             }
+//           }
+//         }
+//       `
+// };
 
 const Dashboard = () => {
   const classes = useStyles();
@@ -212,6 +212,8 @@ const Dashboard = () => {
             </Card>
           </GridItem>
         );
+      default:
+        return null;
     }
   };
 
