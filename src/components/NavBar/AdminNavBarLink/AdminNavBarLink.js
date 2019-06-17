@@ -128,7 +128,7 @@ class AdminNavBarLink extends React.Component {
                         onClick={this.handleClose}
                         className={classes.dropdownItem}
                       >
-                        You're now friend with Andrew
+                        You are now friend with Andrew
                       </MenuItem>
                       <MenuItem
                         onClick={this.handleClose}
