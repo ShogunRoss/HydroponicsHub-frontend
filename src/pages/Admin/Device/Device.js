@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import DevicesContext from "../../../context/devices-context";
+import React, { useEffect, useState, useRef } from "react";
+// import DevicesContext from "../../../context/devices-context";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -27,11 +27,11 @@ const requestBody = {
             location
             tdsWanted
             phWanted
+            floodDuration
+            ledDuration
             sensorInterval
             floodInterval
             ledInterval
-            floodDuration
-            ledDuration
           }
         }
       `
@@ -55,6 +55,21 @@ const DevicePage = () => {
   });
   const [buttonType, setButtonType] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  useEffect(() => {
+    setModalOpen(true);
+    setButtonType("newDevice");
+  }, []);
+
+  const secrectKeyEl = useRef(null);
+  const nameEl = useRef(null);
+  const locationEl = useRef(null);
+  const tdsWantedEl = useRef(null);
+  const phWantedEl = useRef(null);
+  const floodDurationEl = useRef(null);
+  const ledDurationEl = useRef(null);
+  const sensorIntervalEl = useRef(null);
+  const floodIntervalEl = useRef(null);
+  const ledIntervalEl = useRef(null);
 
   const handleCommandButtonClick = (type, event) => {
     setModalOpen(true);
@@ -63,7 +78,7 @@ const DevicePage = () => {
       console.log({ target: event.currentTarget.parentNode.parentNode.id });
   };
 
-  const handleDeleteDeviceCancel = () => {
+  const handleModalCancel = () => {
     setModalOpen(false);
   };
 
@@ -71,14 +86,29 @@ const DevicePage = () => {
     setModalOpen(false);
   };
 
-  const submitHandler = () => {};
+  const submitNewDeviceHandler = event => {
+    event.preventDefault();
+
+    let secrectKey = secrectKeyEl.current.value;
+    let name = nameEl.current.value;
+    let location = locationEl.current.value;
+    let tdsWanted = tdsWantedEl.current.value;
+    let phWanted = phWantedEl.current.value;
+    let floodDuration = floodDurationEl.current.value;
+    let ledDuration = ledDurationEl.current.value;
+    let sensorInterval = sensorIntervalEl.current.value;
+    let floodInterval = floodIntervalEl.current.value;
+    let ledInterval = ledIntervalEl.current.value;
+  };
+
+  const submitEditDeviceHandler = () => {};
 
   const titleText = buttonType => {
     switch (buttonType) {
       case "newDevice":
         return "New device";
       case "editDevice":
-        return "Edit your device's config";
+        return "Edit device";
       case "deleteDevice":
         return "Delete your device";
       default:
@@ -103,7 +133,7 @@ const DevicePage = () => {
     switch (buttonType) {
       case "newDevice":
         return (
-          <form onSubmit={submitHandler}>
+          <form onSubmit={submitNewDeviceHandler}>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
                 <CustomInput
@@ -132,11 +162,172 @@ const DevicePage = () => {
                   }}
                 />
               </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="TDS Wanted"
+                  id="tdsWanted"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="pH Wanted"
+                  id="phWanted"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="Flood Duration"
+                  id="floodDuration"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="LED Duration"
+                  id="ledDuration"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Sensor Interval"
+                  id="sensorInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Flood Interval"
+                  id="floodInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="LED Interval"
+                  id="ledInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
             </GridContainer>
           </form>
         );
       case "editDevice":
-        return "Confirm";
+        return (
+          <form onSubmit={submitEditDeviceHandler}>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Secret Key"
+                  id="secrect-key"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    disable: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Device Name"
+                  id="name"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12}>
+                <CustomInput
+                  labelText="Location"
+                  id="location"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="TDS Wanted"
+                  id="tdsWanted"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="pH Wanted"
+                  id="phWanted"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="Flood Duration"
+                  id="floodDuration"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText="LED Duration"
+                  id="ledDuration"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Sensor Interval"
+                  id="sensorInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="Flood Interval"
+                  id="floodInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={4}>
+                <CustomInput
+                  labelText="LED Interval"
+                  id="ledInterval"
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                />
+              </GridItem>
+            </GridContainer>
+          </form>
+        );
       case "deleteDevice":
         return <h4>Are you sure that you want to delete this device!</h4>;
       default:
@@ -181,7 +372,6 @@ const DevicePage = () => {
                 <p className={classes.newDeviceText}>Add new device</p>
               </Button>
             </div>
-
             <Table
               handleEditClick={handleCommandButtonClick.bind(
                 this,
@@ -198,23 +388,23 @@ const DevicePage = () => {
                 "Location",
                 "TDS Wanted",
                 "pH Wanted",
+                "Flood Duration",
+                "LED Duration",
                 "Sensor Interval",
                 "Flood Interval",
-                "LED Interval",
-                "Flood Duration",
-                "LED Duration"
+                "LED Interval"
               ]}
               tableData={deviceListData}
             />
           </CardBody>
         </Card>
       </GridItem>
-      {/* Delete Device Confirmation */}
+
       <Modal
         open={modalOpen}
         titleText={titleText(buttonType)}
         confirmText={confirmText(buttonType)}
-        handleCancelClick={handleDeleteDeviceCancel}
+        handleCancelClick={handleModalCancel}
         handleConfirmClick={handleDeleteDeviceConfirm}
       >
         {modalContent(buttonType)}
