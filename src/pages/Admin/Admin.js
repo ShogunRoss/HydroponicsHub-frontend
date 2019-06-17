@@ -15,6 +15,7 @@ import logo from "../../assets/img/reactlogo.png";
 import image from "../../assets/img/sidebar.jpg";
 
 import { serverUrl } from "../../config";
+import AuthContext from "../../context/auth-context"
 import DevicesContext from "../../context/devices-context";
 
 const switchRoutes = (
@@ -33,30 +34,32 @@ const switchRoutes = (
   </Switch>
 );
 
-// const requestBody = {
-//   query: `
-//         query {
-//           devices {
-//             name
-//             installationDate
-//             location
-//             tdsWanted
-//             phWanted
-//             sensorInterval
-//             floodInterval
-//             ledInterval
-//             floodDuration
-//             ledDuration
-//             history{
-//               nutrient
-//               pH
-//               temperature
-//               time
-//             }
-//           }
-//         } 
-// 			`
-// };
+const requestBody = {
+  query: `
+        query {
+          devices {
+            secretKey
+            name
+            createdAt
+            location
+            tdsWanted
+            phWanted
+            floodInterval
+            floodDuration
+            startFloodTime
+            endFloodTime
+            startLedTime
+            endLedTime
+            history{
+              nutrient
+              pH
+              temperature
+              time
+            }
+          }
+        } 
+			`
+};
 class Admin extends React.Component {
   constructor(props) {
     super(props);
@@ -67,9 +70,11 @@ class Admin extends React.Component {
       hasImage: true,
       fixedClasses: "dropdown show",
       mobileOpen: false,
-      devices: []
+      history: [],
+      data: []
     };
   }
+  static contextType = AuthContext;
   handleImageClick = image => {
     this.setState({ image: image });
   };
@@ -91,28 +96,61 @@ class Admin extends React.Component {
       this.setState({ mobileOpen: false });
     }
   };
+  fetchData = () => {
+    fetch(serverUrl, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.context.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed to fetch.");
+        }
+        return res.json();
+      })
+      .then(res => {
+        let devices = res.data.devices;
+        let data = devices.map(device => {
+          return {
+            info: Object.keys(device)
+              .filter(key => {
+                if (key === "history" || key === "secretKey") {
+                  return false;
+                } else {
+                  return true;
+                }
+              })
+              .map(key => {
+                if (key === "createdAt") {
+                  return new Date(device[key]).toDateString();
+                } else {
+                  return device[key];
+                }
+              }),
+            secretKey: device.secretKey
+          };
+        });
+        let history = devices.map(device => {
+          return {
+            history: device.history,
+            name: device.name
+          };
+        });
+        this.setState({
+          data: data,
+          history: history
+        });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   componentDidMount() {
     window.addEventListener("resize", this.resizeFunction);
-    console.log("Admin did mount");
-    // fetch(serverUrl, {
-    //   method: "POST",
-    //   body: JSON.stringify(requestBody),
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    //   .then(res => {
-    //     if (res.status !== 200 && res.status !== 201) {
-    //       throw new Error("Failed to fetch.");
-    //     }
-    //     return res.json();
-    //   })
-    //   .then(data => {
-    //     this.setState({ devices: data.data.devices });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    this.fetchData();
   }
   componentDidUpdate(e) {
     if (e.history.location.pathname !== e.location.pathname) {
@@ -146,13 +184,15 @@ class Admin extends React.Component {
             {...rest}
           />
           <div className={classes.content}>
-            {/* <DevicesContext.Provider
+            <DevicesContext.Provider
               value={{
-                devices: this.state.devices
-              }} 
-            >*/}
-            <div className={classes.container}>{switchRoutes}</div>
-            {/* </DevicesContext.Provider> */}
+                history: this.state.history,
+                data: this.state.data,
+                fetchData: this.fetchData
+              }}
+            >
+              <div className={classes.container}>{switchRoutes}</div>
+            </DevicesContext.Provider>
           </div>
         </div>
       </div>

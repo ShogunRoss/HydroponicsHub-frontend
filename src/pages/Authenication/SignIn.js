@@ -49,7 +49,6 @@ const SignIn = () => {
         password: password
       }
     };
-
     fetch(serverUrl, {
       method: "POST",
       body: JSON.stringify(requestBody),
@@ -64,6 +63,7 @@ const SignIn = () => {
         return res.json();
       })
       .then(resData => {
+        setIsLoading(false);
         if (resData.data.login.token) {
           context.login(
             resData.data.login.token,
@@ -71,7 +71,6 @@ const SignIn = () => {
             resData.data.login.tokenExpiration
           );
         }
-        setIsLoading(false);
       })
       .catch(err => {
         setIsLoading(false);

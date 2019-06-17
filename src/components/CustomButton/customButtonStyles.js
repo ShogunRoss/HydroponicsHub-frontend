@@ -338,10 +338,10 @@ const buttonStyle = theme => ({
     }
   },
   marginRight: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(0.25)
   },
   marginLeft: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(0.25)
   }
 });
 

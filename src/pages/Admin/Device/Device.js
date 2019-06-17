@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-// import DevicesContext from "../../../context/devices-context";
+import React, { useContext, useState } from "react";
+import DevicesContext from "../../../context/devices-context";
+import AuthContext from "../../../context/auth-context";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -14,68 +15,48 @@ import Button from "../../../components/CustomButton/CustomButton";
 import useStyles from "./deviceStyles";
 
 import Modal from "../../../components/CustomModal/CustomModal";
+import NewDeviceForm from "./DeviceForm/NewDeviceForm";
+import EditDeviceForm from "./DeviceForm/EditDeviceForm";
 
-import { useHttp } from "../../../hooks/http";
+// import { useHttp } from "../../../hooks/http";
 import { serverUrl } from "../../../config";
-
-const requestBody = {
-  query: `
-        query {
-          devices {
-            name
-            installationDate
-            location
-            tdsWanted
-            phWanted
-            floodDuration
-            ledDuration
-            sensorInterval
-            floodInterval
-            ledInterval
-          }
-        }
-      `
-};
 
 const DevicePage = () => {
   const classes = useStyles();
-  // const context = useContext(DevicesContext);
-  // const deviceList = context.devices;
-
-  const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
-  const deviceList = fetchedData ? fetchedData.data.devices : [];
-  const deviceListData = deviceList.map(device => {
-    return Object.keys(device).map(key => {
-      if (key === "installationDate") {
-        return new Date(device[key]).toDateString();
-      } else {
-        return device[key];
-      }
-    });
+  const deviceContext = useContext(DevicesContext);
+  const authContext = useContext(AuthContext);
+  const deviceListData = deviceContext.data.map(device => {
+    return device.info;
   });
+
   const [buttonType, setButtonType] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  useEffect(() => {
-    setModalOpen(true);
-    setButtonType("newDevice");
-  }, []);
+  const [selectedDevice, setSelectedDevice] = useState(null);
 
-  const secrectKeyEl = useRef(null);
-  const nameEl = useRef(null);
-  const locationEl = useRef(null);
-  const tdsWantedEl = useRef(null);
-  const phWantedEl = useRef(null);
-  const floodDurationEl = useRef(null);
-  const ledDurationEl = useRef(null);
-  const sensorIntervalEl = useRef(null);
-  const floodIntervalEl = useRef(null);
-  const ledIntervalEl = useRef(null);
+  // const [forceRender, setForceRender] = useState(false);
+  // useEffect(() => {}, [forceRender]);
+
+  // const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, [
+  //   sendRequest
+  // ]);
+  // const deviceList = fetchedData ? fetchedData.data.devices : [];
+  // const deviceListData = deviceList.map(device => {
+  //   return Object.keys(device).map(key => {
+  //     if (key === "createdAt") {
+  //       return new Date(device[key]).toDateString();
+  //     } else {
+  //       return device[key];
+  //     }
+  //   });
+  // });
 
   const handleCommandButtonClick = (type, event) => {
     setModalOpen(true);
     setButtonType(type);
-    if (type === "editDevice" || type === "deleteDevice")
-      console.log({ target: event.currentTarget.parentNode.parentNode.id });
+    if (type === "editDevice" || type === "deleteDevice") {
+      // console.log({ target: event.currentTarget.parentNode.parentNode.id });
+      setSelectedDevice(parseInt(event.currentTarget.parentNode.parentNode.id));
+    }
   };
 
   const handleModalCancel = () => {
@@ -83,34 +64,52 @@ const DevicePage = () => {
   };
 
   const handleDeleteDeviceConfirm = () => {
-    setModalOpen(false);
+    // console.log(deviceContext.data[selectedDevice].secretKey);
+    const requestDeleteBody = {
+      query: `
+        mutation RemoveDevice($secretKey: String!){
+          removeDevice(secretKey: $secretKey) {
+            email
+          }
+        }
+      `,
+      variables: {
+        secretKey: deviceContext.data[selectedDevice].secretKey
+      }
+    };
+    fetch(serverUrl, {
+      method: "POST",
+      body: JSON.stringify(requestDeleteBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + authContext.token
+      }
+    })
+      .then(res => {
+        if (res.status !== 200 && res.status !== 201) {
+          throw new Error("Failed to fetch.");
+        }
+        return res.json();
+      })
+      .then(() => {
+        setModalOpen(false);
+        deviceContext.fetchData();
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
-
-  const submitNewDeviceHandler = event => {
-    event.preventDefault();
-
-    let secrectKey = secrectKeyEl.current.value;
-    let name = nameEl.current.value;
-    let location = locationEl.current.value;
-    let tdsWanted = tdsWantedEl.current.value;
-    let phWanted = phWantedEl.current.value;
-    let floodDuration = floodDurationEl.current.value;
-    let ledDuration = ledDurationEl.current.value;
-    let sensorInterval = sensorIntervalEl.current.value;
-    let floodInterval = floodIntervalEl.current.value;
-    let ledInterval = ledIntervalEl.current.value;
-  };
-
-  const submitEditDeviceHandler = () => {};
 
   const titleText = buttonType => {
     switch (buttonType) {
       case "newDevice":
         return "New device";
       case "editDevice":
-        return "Edit device";
+        return `Edit ${deviceListData[selectedDevice] &&
+          deviceListData[selectedDevice][0]}`;
       case "deleteDevice":
-        return "Delete your device";
+        return `Delete ${deviceListData[selectedDevice] &&
+          deviceListData[selectedDevice][0]}`;
       default:
         return "";
     }
@@ -128,208 +127,34 @@ const DevicePage = () => {
         return "";
     }
   };
+  const actionCallback = () => {
+    setModalOpen(false);
+    deviceContext.fetchData();
+  };
 
   const modalContent = buttonType => {
     switch (buttonType) {
       case "newDevice":
         return (
-          <form onSubmit={submitNewDeviceHandler}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Secret Key"
-                  id="secrect-key"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Device Name"
-                  id="name"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Location"
-                  id="location"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="TDS Wanted"
-                  id="tdsWanted"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="pH Wanted"
-                  id="phWanted"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="Flood Duration"
-                  id="floodDuration"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="LED Duration"
-                  id="ledDuration"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="Sensor Interval"
-                  id="sensorInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="Flood Interval"
-                  id="floodInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="LED Interval"
-                  id="ledInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-            </GridContainer>
-          </form>
+          <NewDeviceForm callback={actionCallback} token={authContext.token} />
         );
       case "editDevice":
         return (
-          <form onSubmit={submitEditDeviceHandler}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Secret Key"
-                  id="secrect-key"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    disable: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Device Name"
-                  id="name"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={12}>
-                <CustomInput
-                  labelText="Location"
-                  id="location"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="TDS Wanted"
-                  id="tdsWanted"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="pH Wanted"
-                  id="phWanted"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="Flood Duration"
-                  id="floodDuration"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={6}>
-                <CustomInput
-                  labelText="LED Duration"
-                  id="ledDuration"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="Sensor Interval"
-                  id="sensorInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="Flood Interval"
-                  id="floodInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-              <GridItem xs={12} sm={12} md={4}>
-                <CustomInput
-                  labelText="LED Interval"
-                  id="ledInterval"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                />
-              </GridItem>
-            </GridContainer>
-          </form>
+          <EditDeviceForm
+            token={authContext.token}
+            callback={actionCallback}
+            data={deviceContext.data[selectedDevice]}
+          />
         );
       case "deleteDevice":
-        return <h4>Are you sure that you want to delete this device!</h4>;
+        return (
+          <h4>
+            Are you sure that you want to delete{" "}
+            {deviceListData[selectedDevice] &&
+              deviceListData[selectedDevice][0]}
+            ?
+          </h4>
+        );
       default:
         return null;
     }
@@ -388,11 +213,12 @@ const DevicePage = () => {
                 "Location",
                 "TDS Wanted",
                 "pH Wanted",
-                "Flood Duration",
-                "LED Duration",
-                "Sensor Interval",
                 "Flood Interval",
-                "LED Interval"
+                "Flood Duration",
+                "Start Flood",
+                "End Flood",
+                "Start LED",
+                "End LED"
               ]}
               tableData={deviceListData}
             />
@@ -405,7 +231,9 @@ const DevicePage = () => {
         titleText={titleText(buttonType)}
         confirmText={confirmText(buttonType)}
         handleCancelClick={handleModalCancel}
-        handleConfirmClick={handleDeleteDeviceConfirm}
+        handleConfirmClick={
+          buttonType === "deleteDevice" ? handleDeleteDeviceConfirm : null
+        }
       >
         {modalContent(buttonType)}
       </Modal>

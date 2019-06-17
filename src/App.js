@@ -30,13 +30,13 @@ const App = () => {
         }}
       >
         <Switch>
-          {/* {token && <Redirect exact from="/admin" to="/admin/dashboard" />} */}
-          {/* {!token && <Redirect from="/admin" to="/signin" />} */}
+          {token && <Redirect exact from="/admin" to="/admin/dashboard" />}
+          {!token && <Redirect from="/admin" to="/signin" />}
 
-          <Redirect exact from="/admin" to="/admin/dashboard" />
+          {/* <Redirect exact from="/admin" to="/admin/dashboard" /> */}
 
-          {token && <Redirect from="/signin" to="/admin" exact />}
-          {token && <Redirect from="/signup" to="/admin" exact />}
+          {token && <Redirect from="/signin" to="/admin" />}
+          {token && <Redirect from="/signup" to="/admin" />}
           <Route path="/admin" component={Admin} />
           <Route exact path="/" component={LandingPage} />
           <Route exact path="/signin" component={SignIn} />

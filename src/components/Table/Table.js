@@ -102,7 +102,7 @@ CustomTable.propTypes = {
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
   tableData: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.string || PropTypes.number)
+    PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))
   )
 };
 

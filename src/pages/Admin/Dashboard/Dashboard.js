@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import useStyles from "./dashboardStyles";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
@@ -27,9 +27,9 @@ import {
   phConfigChart
 } from "../../../variables/charts.jsx";
 
-import { useHttp } from "../../../hooks/http";
-import { serverUrl } from "../../../config";
-// import DevicesContext from "../../../context/devices-context";
+// import { useHttp } from "../../../hooks/http";
+// import { serverUrl } from "../../../config";
+import DevicesContext from "../../../context/devices-context";
 
 const requestBody = {
   query: `
@@ -49,15 +49,15 @@ const requestBody = {
 
 const Dashboard = () => {
   const classes = useStyles();
-  // const context = useContext(DevicesContext);
+  const context = useContext(DevicesContext);
 
   const [chosenDevice, setChosenDevice] = useState("");
   const [displayChart, setDisplayChart] = useState("tds");
 
-  const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
-  const deviceList = fetchedData ? fetchedData.data.devices : [];
+  // const [isLoading, fetchedData] = useHttp(serverUrl, requestBody, []);
+  // const deviceList = fetchedData ? fetchedData.data.devices : [];
 
-  // const deviceList = context.devices;
+  const deviceList = context.history;
 
   let tdsValue = 0,
     tempValue = 0,
@@ -73,16 +73,16 @@ const Dashboard = () => {
 
   if (chosenDevice !== "") {
     const lastestSensorData = deviceList[chosenDevice].history.slice(-1)[0];
-    tdsArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+    tdsArray = deviceList[chosenDevice].history.slice(-15).map(data => {
       return data.nutrient;
     });
-    tempArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+    tempArray = deviceList[chosenDevice].history.slice(-15).map(data => {
       return data.temperature;
     });
-    phArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+    phArray = deviceList[chosenDevice].history.slice(-15).map(data => {
       return data.pH;
     });
-    timeArray = deviceList[chosenDevice].history.slice(-20).map(data => {
+    timeArray = deviceList[chosenDevice].history.slice(-15).map(data => {
       let time = new Date(data.time);
       return (
         time.getHours() +
@@ -226,7 +226,11 @@ const Dashboard = () => {
           input={<OutlinedInput name="age" id="outlined-age-simple" />}
         >
           <MenuItem value={""} disabled>
-            <em>Select your devices</em>
+            <em>
+              {deviceList.length > 0
+                ? "Select your devices"
+                : "You don't have any device"}
+            </em>
           </MenuItem>
           {deviceList.map((device, index) => (
             <MenuItem key={index} value={index}>

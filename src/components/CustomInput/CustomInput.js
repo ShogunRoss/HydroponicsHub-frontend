@@ -21,7 +21,9 @@ function CustomInput({ ...props }) {
     labelProps,
     inputProps,
     error,
-    success
+    success,
+    inputRef,
+    required
   } = props;
 
   const labelClasses = classNames({
@@ -38,6 +40,7 @@ function CustomInput({ ...props }) {
   });
   return (
     <FormControl
+      required={required}
       {...formControlProps}
       className={formControlProps.className + " " + classes.formControl}
     >
@@ -56,6 +59,7 @@ function CustomInput({ ...props }) {
           disabled: classes.disabled,
           underline: underlineClasses
         }}
+        inputRef={inputRef}
         id={id}
         {...inputProps}
       />
@@ -76,7 +80,9 @@ CustomInput.propTypes = {
   inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
-  success: PropTypes.bool
+  success: PropTypes.bool,
+  inputRef: PropTypes.object,
+  required: PropTypes.bool
 };
 
 export default withStyles(customInputStyle)(CustomInput);

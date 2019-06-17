@@ -52,16 +52,20 @@ const SignUp = () => {
 
     let requestBody = {
       query: `
-          mutation CreateUser($email: String!, $password: String!){
-            createUser(userInput:{email: $email, password: $password}) {
-              _id
-              email
+          mutation CreateUser($email: String!, $password: String!, $phone: String!, $firstName: String!, $lastName: String!){
+            createUser(userInput:{email: $email, password: $password, phone: $phone, firstName: $firstName, lastName: $lastName}) {
+            userId
+            token
+            tokenExpiration
             }
           }
         `,
       variables: {
         email: email,
-        password: password
+        password: password,
+        phone: phone,
+        firstName: firstName,
+        lastName: lastName
       }
     };
 
@@ -79,15 +83,14 @@ const SignUp = () => {
         return res.json();
       })
       .then(resData => {
-        console.log(resData);
-        if (resData.data.login.token) {
+        setIsLoading(false);
+        if (resData.data.createUser.token) {
           context.login(
-            resData.data.login.token,
-            resData.data.login.userId,
-            resData.data.login.tokenExpiration
+            resData.data.createUser.token,
+            resData.data.createUser.userId,
+            resData.data.createUser.tokenExpiration
           );
         }
-        setIsLoading(false);
       })
       .catch(err => {
         setIsLoading(false);

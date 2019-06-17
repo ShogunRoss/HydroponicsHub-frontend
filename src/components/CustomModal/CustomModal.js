@@ -54,6 +54,7 @@ const CommonModal = props => {
             type="submit"
             disabled={confirmDisable}
             color="success"
+            form="device"
             onClick={handleConfirmClick}
           >
             <CheckIcon /> {confirmText}
