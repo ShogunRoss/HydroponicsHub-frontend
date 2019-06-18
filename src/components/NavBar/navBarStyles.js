@@ -42,7 +42,10 @@ const headerStyle = theme => ({
     fontSize: "1.5rem",
     textTransform: "none",
     color: "inherit",
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      paddingLeft: 0
+    }
   },
   appResponsive: {
     top: "8px"

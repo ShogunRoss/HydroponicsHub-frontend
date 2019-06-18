@@ -14,7 +14,7 @@ const adminStyles = theme => ({
     [theme.breakpoints.up("md")]: {
       width: `calc(100% - ${drawerWidth}px)`
     },
-    overflow: "auto",
+    overflow: "inherit",
     position: "relative",
     float: "right",
     ...transition,
@@ -24,8 +24,11 @@ const adminStyles = theme => ({
   },
   content: {
     marginTop: "70px",
-    padding: "30px 15px",
-    minHeight: "calc(100vh - 123px)"
+    padding: "32px 16px",
+    minHeight: "calc(100vh - 123px)",
+    [theme.breakpoints.down("sm")]: {
+      padding: 0
+    }
   },
   container,
   map: {
