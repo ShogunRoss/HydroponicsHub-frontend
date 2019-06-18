@@ -244,7 +244,7 @@ const Dashboard = () => {
       {/* INFO CARD ZONE */}
       <GridContainer>
         {/* TDS Card */}
-        <GridItem xs={12} sm={12} md={4}>
+        <GridItem xs={12} sm={4} md={4}>
           <Card id="tds" onClick={handleCardClick}>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
@@ -269,7 +269,7 @@ const Dashboard = () => {
           </Card>
         </GridItem>
         {/* Temperature Card */}
-        <GridItem xs={12} sm={6} md={4}>
+        <GridItem xs={12} sm={4} md={4}>
           <Card id="temp" onClick={handleCardClick}>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
@@ -305,7 +305,7 @@ const Dashboard = () => {
           </Card>
         </GridItem>
         {/* pH Card */}
-        <GridItem xs={12} sm={6} md={4}>
+        <GridItem xs={12} sm={4} md={4}>
           <Card id="ph" onClick={handleCardClick}>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">

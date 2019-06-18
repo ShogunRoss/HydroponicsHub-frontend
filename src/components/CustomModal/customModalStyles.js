@@ -13,12 +13,14 @@ const useStyles = makeStyles(theme => ({
     transform: `translate(-${top}%, -${left}%)`,
     borderRadius: 4,
     [theme.breakpoints.down("sm")]: {
-      minWidth: "90%"
+      minWidth: "90%",
+      maxHeight: "85%"
     }
   },
 
   content: {
     // padding: theme.spacing(3)
+    overflow: "auto"
   },
 
   action: {
